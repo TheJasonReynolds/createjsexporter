@@ -1,0 +1,16 @@
+{% load tpjs %}{
+"images": [{% for result in allResults %}{% for texture in result.textures %}"{{settings.textureSubPath}}{{texture.fullName}}"{% if not forloop.last %}, {% endif %}{% endfor %}{% endfor %}],
+"frames": [{{sprite.frameRect.x|resetCounter}}{% for result in allResults %}{% for texture in result.textures %}{% for sprite in texture.allSprites %}
+    [{{sprite.frameRect.x}}, {{sprite.frameRect.y}}, {{sprite.frameRect.width}}, {{sprite.frameRect.height}}, {{sprite.frameRect.x|printCounter}}]{% if not forloop.last %},{% endif %}{% endfor %}{% if not forloop.last %},{% endif %}{{sprite.frameRect.x|addCounter}}{% endfor %}{% endfor %}
+],
+
+"animations": {
+    {% for result in allResults %}{{result.textures|resetCounter}}{% for texture in result.textures %}{% for sprite in texture.allSprites %}
+     "{{sprite.trimmedName}}":[{{result.textures|printCounter}}]{% if not forloop.last %},{% endif %}{{result.textures|addCounter}}{% endfor %}{% if not forloop.last %},{% endif %}{% endfor %}{% endfor %}
+},
+
+"texturepacker": [
+        "SmartUpdateHash: {{smartUpdateKey}}",
+        "Created with TexturePacker (http://www.texturepacker.com) for EaselJS"
+]
+}
